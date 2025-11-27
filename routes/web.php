@@ -40,3 +40,19 @@ Route::get('/fix-cache', function () {
         return 'Error: ' . $e->getMessage();
     }
 });
+
+
+Route::get('/make-me-admin', function () {
+    // 1. Get the latest created user
+    $user = User::latest()->first();
+
+    if (!$user) {
+        return "No users found in the database.";
+    }
+
+    // 2. Make them Admin
+    $user->is_admin = true;
+    $user->save();
+
+    return "Success! The latest user: <b>" . $user->name . "</b> (" . $user->email . ") is now an Admin.";
+});
