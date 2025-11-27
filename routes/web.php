@@ -19,3 +19,24 @@ Route::get('/get-admin', function () {
     }
     return "No users found.";
 });  
+
+
+
+
+
+use Illuminate\Support\Facades\Artisan;
+
+// This is your emergency button
+Route::get('/fix-cache', function () {
+    try {
+        Artisan::call('optimize:clear');
+        Artisan::call('config:clear');
+        Artisan::call('cache:clear');
+        Artisan::call('route:clear');
+        Artisan::call('view:clear');
+        
+        return '<h1>✅ FIXED!</h1> <p>Cache, Config, Routes, and Views have been cleared.</p>';
+    } catch (\Exception $e) {
+        return 'Error: ' . $e->getMessage();
+    }
+});
